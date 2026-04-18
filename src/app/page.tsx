@@ -1,29 +1,36 @@
 'use client'
+import { useMutation } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const ANIMALS = ["wolf","hawk","eagle","lion","tiger","bear","fox","deer","rabbit","mouse"];
-const STORAGE_KEY="chat_username"
+const ANIMALS = ["wolf", "hawk", "eagle", "lion", "tiger", "bear", "fox", "deer", "rabbit", "mouse"];
+const STORAGE_KEY = "chat_username"
 const generateUsername = () => {
-    const word = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
-    return `anonymous-${word}-${nanoid(5)}`
+  const word = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+  return `anonymous-${word}-${nanoid(5)}`
 
 }
 
 export default function Home() {
   const [username, setUsername] = useState("Raja")
-  useEffect(()=>{
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if(stored){
-      setUsername(stored);
-      return
+  useEffect(() => {
+    const main = () => {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        setUsername(stored);
+        return
+      }
+      const generated = generateUsername();
+      localStorage.setItem(STORAGE_KEY, generated);
+      setUsername(generated);
     }
-    const generated=generateUsername();
-    localStorage.setItem(STORAGE_KEY,generated);
-    setUsername(generated);
-    
-  },[])
+    main()
+
+  }, [])
+   
+  const {}=useMutation
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-black">
       <div className="w-full max-w-md space-y-8 ">
@@ -34,7 +41,7 @@ export default function Home() {
           <p className="text-zinc-500 text-sm">
             A private,self-destructing chat room.
           </p>
-           
+
         </div>
         <div className="border border-zinc-800 bg-zinc-900/50 p-6 ackdrop-blur-md">
           <div className="space-y-5">
