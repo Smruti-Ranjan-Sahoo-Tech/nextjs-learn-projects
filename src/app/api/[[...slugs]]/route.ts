@@ -2,8 +2,11 @@ import { Elysia, t } from 'elysia'
 
 
 const rooms=new Elysia({prefix:'/rooms'})
-    .post("/",()=>{
+    .post("/create",()=>{
         console.log("Hello e create a new Room");
+        return {
+            message:"Room created successfully"
+        }
 
     })
 
