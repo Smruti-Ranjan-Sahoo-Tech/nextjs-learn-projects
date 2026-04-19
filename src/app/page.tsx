@@ -4,6 +4,8 @@ import { nanoid } from "nanoid";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {client} from "@/lib/client"
+import { useRouter } from "next/navigation";
+
 const ANIMALS = ["wolf", "hawk", "eagle", "lion", "tiger", "bear", "fox", "deer", "rabbit", "mouse"];
 const STORAGE_KEY = "chat_username"
 const generateUsername = () => {
@@ -13,7 +15,9 @@ const generateUsername = () => {
 }
 
 export default function Home() {
-  const [username, setUsername] = useState("Raja")
+  const [username, setUsername] = useState("");
+  //important not use next/router
+  const router=useRouter();
   useEffect(() => {
     const main = () => {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -33,7 +37,9 @@ export default function Home() {
   const {mutate:createRoom}=useMutation({
     mutationFn:async()=>{
       const res=await client.rooms.create.post();
-      console.log(res)
+      if(res.status === 200){
+        router.push(`/room/${res.data?.roomId}`)
+      }
     }
   })
 
